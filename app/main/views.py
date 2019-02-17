@@ -6,5 +6,7 @@ import json
 
 @main.route("/")
 def index():
-    quote = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
+    r = requests.get('http://quotes.stormconsultancy.co.uk/random.json')
+    quote = r['quote']
     return render_template('index.html', quote=quote)
+
