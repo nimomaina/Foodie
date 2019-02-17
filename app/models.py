@@ -46,7 +46,7 @@ class User(UserMixin, db.Model):
         return f'{self.username}'
 
 
-class Pitch(db.Model):
+class Blog(db.Model):
     '''
     '''
     __tablename__ = 'pitches'
