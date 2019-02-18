@@ -10,8 +10,7 @@
 					<h2></h2>
 					<footer class="blockquote-footer"> Posted by {{category.user.username}}</footer>
 				</blockquote></div>
-                <div class="panel-footer"><a href="{{url_for('main.new_comment',pitch_id = category.id)}}"> Add a comment</a>
-				<a href="{{url_for('main.upvote',pitch_id = category.id)}}"><i class="fas fa-heart"></i>Read More<span>{{category.upvotes.count()}}</span></a>
+                <div class="panel-footer"><a href="{{url_for('main.new_comment',blog_id = category.id)}}"> Add a comment</a>
 
 </div>
     </div>

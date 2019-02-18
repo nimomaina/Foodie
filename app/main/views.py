@@ -14,9 +14,8 @@ from .. import db, photos
 
 @main.route("/")
 def index():
-    r = requests.get('http://quotes.stormconsultancy.co.uk/random.json')
-    quote = r['quote']
-    return render_template('index.html', quote=quote)
+
+    return render_template('index.html')
 
 
 
@@ -62,6 +61,7 @@ def new_blog():
     return render_template('blogs.html', form=form)
 
 
+
 @main.route('/comment/new/<int:blog_id>', methods=['GET', 'POST'])
 @login_required
 def new_comment(blog_id):
@@ -78,6 +78,26 @@ def new_comment(blog_id):
 
     all_comments = Comment.query.filter_by(blog_id=blog_id).all()
     return render_template('comments.html', form=form, comment=all_comments, blog=blog)
+
+@main.route('/blogs/new/', methods=['GET', 'POST'])
+@login_required
+def delete():
+    form = BlogForm()
+    if form.validate_on_submit():
+        description = form.description.data
+        title = form.title.data
+        owner_id = current_user
+        category = form.category.data
+        print(current_user._get_current_object().id)
+        new_blog = Blog(owner_id=current_user._get_current_object().id, title=title, description=description,
+                          category=category)
+        db.session.add(new_blog)
+        db.session.commit()
+        flash('New blog post created','success')
+
+        return redirect(url_for('main.index'))
+    return render_template('blogs.html', form=form)
+
 
 
 @main.route('/user/<uname>')
