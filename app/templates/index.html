@@ -1,11 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <p>{{quote}}</p>
-</head>
 <body>
+{% extends 'base.html' %}
+<!--{% import 'macros.html' as macro%}-->
 
+
+<!-- Styles block -->
+
+{% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+{% endblock %}
+<!-- Content block -->
+
+
+<!-- Content block -->
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <h1>Welcome to One Minute Pitch</h1>
+      <div class= "col-md-7">
+        <div class="shape">
+
+
+        <img src="/static/images/idea.png" alt="login image">
+
+</div>
+      </div>
+      <div class="col-md-5">
+             <h3>Categories</h3>
+      <br>
+      <ul >
+        <li id="cat">
+          <a href="/food">FOOD BLOG</a>
+        </li>
+        <li id="cat">
+          <a  href="/style">FASHION BLOG</a>
+        </li>
+        <li id="cat">
+          <a  href="/techie">TECH BLOG</a>
+        </li>
+
+      </ul>
+
+
+
+
+     </div>
+    </div>
+</div>
+
+
+{% endblock%}
 </body>
-</html>
