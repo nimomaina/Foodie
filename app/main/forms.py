@@ -1,10 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,SubmitField,BooleanField,SubmitField,TextAreaField,RadioField, SelectField
+from wtforms import StringField,BooleanField,SubmitField,TextAreaField,RadioField, SelectField
 from wtforms.validators import Required,Email,EqualTo
 from wtforms import ValidationError
 
 class BlogForm(FlaskForm):
-    category = SelectField('Select category', choices=[('foodie', 'Food Blog'), ('style', 'Fashion and Style'), ('techie', 'Technology')])
     title = StringField('Title for you Blog')
     description = TextAreaField(' ')
     submit = SubmitField('New Blog Post')
@@ -17,3 +16,8 @@ class CommentForm(FlaskForm):
 class UpdateProfile(FlaskForm):
     bio = TextAreaField('Tell us about you.', validators=[Required()])
     submit = SubmitField('Submit')
+
+class UpdateForm(FlaskForm):
+    title = StringField('Title for you Blog',validators=[Required()])
+    description = TextAreaField(' ',validators=[Required()])
+    submit = SubmitField('Edit')

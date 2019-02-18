@@ -47,18 +47,16 @@ def new_blog():
         description = form.description.data
         title = form.title.data
         owner_id = current_user
-        category = form.category.data
-        posted = str(datetime.now())
+        date_posted = str(datetime.now())
         print(current_user._get_current_object().id)
         new_blog = Blog(owner_id=current_user._get_current_object().id, title=title, description=description,
-                          category=category)
+                          date_posted=date_posted)
         db.session.add(new_blog)
         db.session.commit()
         flash('New blog post created','success')
 
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.blog'))
     return render_template('new_blog.html', form=form)
-
 
 
 @main.route('/comment/new/<int:blog_id>', methods=['GET', 'POST'])
@@ -78,6 +76,7 @@ def new_comment(blog_id):
     all_comments = Comment.query.filter_by(blog_id=blog_id).all()
     return render_template('comments.html', form=form, comment=all_comments, blog=blog)
 
+
 @main.route("/delete/<blog_id>",methods = ['GET','POST'])
 def delete(blog_id):
     blog = Blog.query.filter_by(id=blog_id).first()
@@ -86,6 +85,24 @@ def delete(blog_id):
 
     return redirect(url_for('main.blog'))
 
+
+@main.route("/update/<blog_id>", methods= ['GET', 'POST'])
+@login_required
+def update_blog(blog_id):
+    blog = Blog.query.filter_by(id = blog_id).first()
+    form = UpdateForm()
+    if form.validate_on_submit():
+        blog.title = form.title.data
+        blog.description = form.description.data
+        db.session.commit()
+        flash('Your post has been updated', 'success')
+        return redirect(url_for('main.blog'))
+    elif request.method == 'GET':
+        form.title.data = blog.title
+        form.description.data = blog.body
+
+
+    return render_template('new_blog.html', form=form)
 
 
 

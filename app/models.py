@@ -31,12 +31,8 @@ class Blog(db.Model):
         blogs = Blog.query.order_by(blog_id=id).desc().all()
         return blogs
 
-    def get_post_comments(self):
-        return Comment.query.filter_by(post_id=self.id)
-
-    def save_post(self):
-        db.session.add(self)
-        db.session.commit()
+    def get_comments(self):
+        return Comment.query.filter_by(blog_id=self.id)
 
     def __repr__(self):
         return f'Blog {self.description}'
@@ -77,10 +73,6 @@ class Comment(db.Model):
     # user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     description = db.Column(db.Text)
 
-
-    def save_comment(self):
-        db.session.add(self)
-        db.session.commit()
 
     def __repr__(self):
         return f"Comment : id: {self.id} comment: {self.description}"
