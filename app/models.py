@@ -4,14 +4,6 @@ from flask_login import UserMixin, current_user
 from . import login_manager
 
 
-class Quote:
-    '''
-    Quote class to define random quotes
-    '''
-
-    def __init__(self, quote):
-        self.quote = quote
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
