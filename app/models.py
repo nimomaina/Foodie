@@ -22,7 +22,7 @@ class Blog(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     description = db.Column(db.String(), index=True, nullable=False)
     title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_posted = db.Column(db.String)
     comments = db.relationship('Comment', backref='pitch', lazy='dynamic')
 
 
@@ -30,6 +30,13 @@ class Blog(db.Model):
     def get_blogs(cls, id):
         blogs = Blog.query.order_by(blog_id=id).desc().all()
         return blogs
+
+    def get_post_comments(self):
+        return Comment.query.filter_by(post_id=self.id)
+
+    def save_post(self):
+        db.session.add(self)
+        db.session.commit()
 
     def __repr__(self):
         return f'Blog {self.description}'
@@ -67,9 +74,23 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     blog_id = db.Column(db.Integer, db.ForeignKey('blogs.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    # user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     description = db.Column(db.Text)
+
+
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
 
     def __repr__(self):
         return f"Comment : id: {self.id} comment: {self.description}"
 
+
+class Subscriber(db.Model):
+    __tablename__ = "subscribers"
+    id = db.Column(db.Integer, primary_key = True)
+    email = db.Column(db.String)
+
+    def save_subscriber(self):
+        db.session.add(self)
+        db.session.commit()

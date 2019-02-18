@@ -18,28 +18,54 @@ def index():
     return render_template('index.html')
 
 
+@main.route('/blogs')
+def blog():
+    posts = None
+    posts = Post.query.order_by(Post.date.desc())
+    # author = User.query.filter_by(author_name = uname).first()
+    return render_template('blog.html', posts=posts)
 
-@main.route('/food', methods=['GET', 'POST'])
-def foodie():
-    blog = Blog.query.filter_by().first()
-    foodie = Blog.query.filter_by(category="foodie")
+
+@main.route('/viewblog/<int:post_id>')
+def view_blog(blog_id):
+    blog = Blog.query.filter_by(id=blog_id).first()
+    form = CommentForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        description = form.description.data
+        new_comment = Comment(name=name, description=description, blog=blog)
+        new_comment.save_comment()
+        return redirect(url_for('main.view_blog', id=blog.id))
+    comments = Comment.query.filter_by(blog_id=blog.id)
     random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
 
-    return render_template('food.html', blog=blog, foodie=foodie, random=random)
-
-@main.route('/style', methods=['GET', 'POST'])
-def style():
-    blog = Blog.query.filter_by().first()
-    style= Blog.query.filter_by(category="style")
-    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
-    return render_template('style.html', style=style, blog=blog, random=random)
-
-@main.route('/techie', methods=['GET', 'POST'])
-def technology():
-    techie = Blog.query.filter_by(category="techie")
-    blog = Blog.query.filter_by().first()
-    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
-    return render_template('technology.html', blog=blog, techie=techie, random=random)
+    return render_template("blog_page.html", blog=blog, comments=comments, random = random)
+#
+#
+#
+#
+#
+# @main.route('/food', methods=['GET', 'POST'])
+# def foodie():
+#     blog = Blog.query.filter_by().first()
+#     foodie = Blog.query.filter_by(category="foodie")
+#     random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
+#
+#     return render_template('food.html', blog=blog, foodie=foodie, random=random)
+#
+# @main.route('/style', methods=['GET', 'POST'])
+# def style():
+#     blog = Blog.query.filter_by().first()
+#     style= Blog.query.filter_by(category="style")
+#     random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
+#     return render_template('style.html', style=style, blog=blog, random=random)
+#
+# @main.route('/techie', methods=['GET', 'POST'])
+# def technology():
+#     techie = Blog.query.filter_by(category="techie")
+#     blog = Blog.query.filter_by().first()
+#     random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
+#     return render_template('technology.html', blog=blog, techie=techie, random=random)
 
 @main.route('/blogs/new/', methods=['GET', 'POST'])
 @login_required
