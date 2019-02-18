@@ -1,0 +1,17 @@
+{% extends 'bootstrap/base.html' %}
+% block styles %}
+{{super()}}
+
+
+
+<link href="{{url_for('static',filename='css/style.css')}}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=family=Slabo+27px" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+
+{% endblock %}
