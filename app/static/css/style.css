@@ -1,0 +1,55 @@
+
+img{
+  width: 100%;
+
+}
+
+.home{
+    height:600px;
+}
+.home img{
+    height:450px;
+    overflow:hidden;
+}
+
+body{
+    min-height: 100%;
+        font-family: 'Slabo 27px', serif;
+        overflow: hidden;
+
+
+}
+#cat{
+    list-style-position:inside;
+    border: 2px solid #E63462;
+    border-radius: 20px;
+    width: 100%;
+    list-style-type: none;
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+
+}
+h2{
+    font-family: 'Playfair Display SC', serif;
+    color: #E63462;
+    padding: 10px;
+
+
+}
+.navbar{
+    color: #E63462;
+    font-size: 15px;
+}
+h3{
+    text-align: center;
+
+}
+h1{
+
+    font-family: 'Playfair Display SC', serif;
+    color: #E63462;
+    padding: 10px;
+    text-align:center;
+
+}
