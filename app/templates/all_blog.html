@@ -36,6 +36,10 @@
 				</div>
                 <div class="row">
                     <a href="{{url_for('main.view_blog',blog_id = blog.id)}}" class="btn btn-info">Read More</a>
+					{% if current_user.is_authenticated%}
+					<a href="{{url_for('main.delete',blog_id = blog.id)}}">Delete</a>
+					<a href="{{url_for('main.update_blog',blog_id = blog.id)}}" class="btn">Update</a>
+					{% endif %}
 
 
 				</div>

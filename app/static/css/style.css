@@ -5,31 +5,28 @@ img{
 }
 
 .home{
-    height:600px;
+    height:400px;
+
+}
+.font{
+    font-size: 30px;
+
+
 }
 .home img{
-    height:450px;
+    height:400px;
     overflow:hidden;
 }
 
 body{
     min-height: 100%;
         font-family: 'Slabo 27px', serif;
-        overflow: hidden;
+        overflow: scrollable;
+        font-size: 16px;
 
 
 }
-#cat{
-    list-style-position:inside;
-    border: 2px solid #E63462;
-    border-radius: 20px;
-    width: 100%;
-    list-style-type: none;
-    padding: 10px;
-    margin: 10px;
-    font-size: 16px;
 
-}
 h2{
     font-family: 'Playfair Display SC', serif;
     color: #E63462;
@@ -38,18 +35,5 @@ h2{
 
 }
 .navbar{
-    color: #E63462;
     font-size: 15px;
-}
-h3{
-    text-align: center;
-
-}
-h1{
-
-    font-family: 'Playfair Display SC', serif;
-    color: #E63462;
-    padding: 10px;
-    text-align:center;
-
 }
