@@ -8,7 +8,7 @@ from flask_login import login_required, current_user
 from ..models import Blog, User, Comment
 from .forms import BlogForm, CommentForm,UpdateProfile
 from flask.views import View, MethodView
-from .. import db, photos
+from .. import db
 
 
 
@@ -24,7 +24,7 @@ def index():
 def foodie():
     blog = Blog.query.filter_by().first()
     foodie = Blog.query.filter_by(category="foodie")
-    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json')
+    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
 
     return render_template('food.html', blog=blog, foodie=foodie, random=random)
 
@@ -32,14 +32,14 @@ def foodie():
 def style():
     blog = Blog.query.filter_by().first()
     style= Blog.query.filter_by(category="style")
-    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json')
+    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
     return render_template('style.html', style=style, blog=blog, random=random)
 
 @main.route('/techie', methods=['GET', 'POST'])
 def technology():
     techie = Blog.query.filter_by(category="techie")
     blog = Blog.query.filter_by().first()
-    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json')
+    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
     return render_template('technology.html', blog=blog, techie=techie, random=random)
 
 @main.route('/blogs/new/', methods=['GET', 'POST'])
