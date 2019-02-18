@@ -6,7 +6,7 @@ from flask import render_template, request, redirect, url_for, abort, flash
 from . import main
 from flask_login import login_required, current_user
 from ..models import Blog, User, Comment
-from .forms import BlogForm, CommentForm,UpdateProfile
+from .forms import BlogForm, CommentForm,UpdateProfile, UpdateForm
 from flask.views import View, MethodView
 from .. import db, photos
 from datetime import datetime
@@ -18,15 +18,17 @@ def index():
     return render_template('index.html')
 
 
-@main.route('/blogs')
+@main.route('/allblogs')
 def blog():
     blogs = Blog.query.order_by(Blog.date_posted.desc())
-    return render_template('blogs.html', blogs=blogs)
+    return render_template('all_blogs.html', blogs=blogs)
 
 
-@main.route('/viewblog/<int:blog_id>',methods = ["GET","POST"])
+@main.route('/blogs/<int:blog_id>',methods = ["GET","POST"])
 def view_blog(blog_id):
     blog = Blog.query.filter_by(id=blog_id).first()
+    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
+
     form = CommentForm()
     if form.validate_on_submit():
         name = form.name.data
@@ -35,9 +37,8 @@ def view_blog(blog_id):
         new_comment.save_comment()
         return redirect(url_for('main.view_blog', id=blog.id))
     comments = Comment.query.filter_by(blog_id=blog.id)
-    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
 
-    return render_template("all_blog.html", blog=blog, comments=comments, random = random)
+    return render_template("blogs.html", blog=blog, comments=comments, random = random)
 
 @main.route('/blogs/new/', methods=['GET', 'POST'])
 @login_required
@@ -58,24 +59,24 @@ def new_blog():
         return redirect(url_for('main.blog'))
     return render_template('new_blog.html', form=form)
 
-
-@main.route('/comment/new/<int:blog_id>', methods=['GET', 'POST'])
-@login_required
-def new_comment(blog_id):
-    form = CommentForm()
-    blog = Blog.query.get(blog_id)
-    if form.validate_on_submit():
-        description = form.description.data
-
-        new_comment = Comment(description=description, user_id=current_user._get_current_object().id, blog_id=blog_id)
-        db.session.add(new_comment)
-        db.session.commit()
-
-        return redirect(url_for('.new_comment', blog_id = blog_id))
-
-    all_comments = Comment.query.filter_by(blog_id=blog_id).all()
-    return render_template('comments.html', form=form, comment=all_comments, blog=blog)
-
+#
+# @main.route('/comment/new/<int:blog_id>', methods=['GET', 'POST'])
+# @login_required
+# def new_comment(blog_id):
+#     form = CommentForm()
+#     blog = Blog.query.get(blog_id)
+#     if form.validate_on_submit():
+#         description = form.description.data
+#
+#         new_comment = Comment(description=description, user_id=current_user._get_current_object().id, blog_id=blog_id)
+#         db.session.add(new_comment)
+#         db.session.commit()
+#
+#         return redirect(url_for('.new_comment', blog_id = blog_id))
+#
+#     all_comments = Comment.query.filter_by(blog_id=blog_id).all()
+#     return render_template('comments.html', form=form, comment=all_comments, blog=blog)
+#
 
 @main.route("/delete/<blog_id>",methods = ['GET','POST'])
 def delete(blog_id):

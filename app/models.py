@@ -73,9 +73,11 @@ class Comment(db.Model):
     # user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     description = db.Column(db.Text)
 
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
 
-    def __repr__(self):
-        return f"Comment : id: {self.id} comment: {self.description}"
+
 
 
 class Subscriber(db.Model):
