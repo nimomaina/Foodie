@@ -1,4 +1,3 @@
-
 from werkzeug.security import generate_password_hash,check_password_hash
 from . import db
 from flask_login import UserMixin, current_user
@@ -26,11 +25,8 @@ class User(UserMixin, db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     pass_secure = db.Column(db.String(255))
-    pitch = db.relationship('Pitch', backref='user', lazy='dynamic')
+    blog = db.relationship('Blog', backref='user', lazy='dynamic')
     comment = db.relationship('Comment', backref='user', lazy='dynamic')
-    upvotes = db.relationship('Upvote', backref='user', lazy='dynamic')
-    downvotes = db.relationship('Downvote', backref='user', lazy='dynamic')
-
     @property
     def password(self):
         raise AttributeError('You cannot read the password attribute')
@@ -49,7 +45,7 @@ class User(UserMixin, db.Model):
 class Blog(db.Model):
     '''
     '''
-    __tablename__ = 'pitches'
+    __tablename__ = 'blogs'
 
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -57,23 +53,20 @@ class Blog(db.Model):
     title = db.Column(db.String())
     category = db.Column(db.String(255), nullable=False)
     comments = db.relationship('Comment', backref='pitch', lazy='dynamic')
-    upvotes = db.relationship('Upvote', backref='pitch', lazy='dynamic')
-    downvotes = db.relationship('Downvote', backref='pitch', lazy='dynamic')
-
     @classmethod
-    def get_pitches(cls, id):
-        pitches = Pitch.query.order_by(pitch_id=id).desc().all()
-        return pitches
+    def get_blogs(cls, id):
+        blogs = Blog.query.order_by(blog_id=id).desc().all()
+        return Blog
 
     def __repr__(self):
-        return f'Pitch {self.description}'
+        return f'Blog {self.description}'
 
 
 class Comment(db.Model):
     __tablename__ = 'comments'
 
     id = db.Column(db.Integer, primary_key=True)
-    pitch_id = db.Column(db.Integer, db.ForeignKey('pitches.id'), nullable=False)
+    blog_id = db.Column(db.Integer, db.ForeignKey('pitches.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     description = db.Column(db.Text)
 
