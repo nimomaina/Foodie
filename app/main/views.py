@@ -6,7 +6,7 @@ from flask import render_template, request, redirect, url_for, abort, flash
 from . import main
 from flask_login import login_required, current_user
 from ..models import Blog, User, Comment
-from .forms import PitchForm, CommentForm, UpvoteForm, UpdateProfile
+from .forms import BlogForm, CommentForm,UpdateProfile
 from flask.views import View, MethodView
 from .. import db, photos
 
@@ -20,66 +20,61 @@ def index():
 
 
 
-@main.route('/pickup', methods=['GET', 'POST'])
-def pickup():
-    pitch = Pitch.query.filter_by().first()
-    pickuppitch = Pitch.query.filter_by(category="pickuppitch")
-    return render_template('pick-up.html', pitch=pitch, pickuppitch=pickuppitch)
+@main.route('/food', methods=['GET', 'POST'])
+def foodie():
+    blog = Blog.query.filter_by().first()
+    foodie = Blog.query.filter_by(category="foodie")
+    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json')
 
-@main.route('/business', methods=['GET', 'POST'])
-def business():
-    pitch = Pitch.query.filter_by().first()
-    businesspitch= Pitch.query.filter_by(category="businesspitch")
+    return render_template('food.html', blog=blog, foodie=foodie, random=random)
 
-    return render_template('business.html', businesspitch=businesspitch, pitch=pitch)
+@main.route('/style', methods=['GET', 'POST'])
+def style():
+    blog = Blog.query.filter_by().first()
+    style= Blog.query.filter_by(category="style")
+    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json')
+    return render_template('style.html', style=style, blog=blog, random=random)
 
-@main.route('/interview', methods=['GET', 'POST'])
-def interview():
-    pitch = Pitch.query.filter_by().first()
-    interviewpitch = Pitch.query.filter_by(category="interviewpitch")
-
-    return render_template('interview.html', pitch=pitch, interviewpitch=interviewpitch)
-
-@main.route('/technology', methods=['GET', 'POST'])
+@main.route('/techie', methods=['GET', 'POST'])
 def technology():
-    techpitch = Pitch.query.filter_by(category="techpitch")
-    pitch = Pitch.query.filter_by().first()
-    return render_template('technology.html', pitch=pitch, techpitch=techpitch)
+    techie = Blog.query.filter_by(category="techie")
+    blog = Blog.query.filter_by().first()
+    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json')
+    return render_template('technology.html', blog=blog, techie=techie, random=random)
 
-@main.route('/pitches/new/', methods=['GET', 'POST'])
+@main.route('/blogs/new/', methods=['GET', 'POST'])
 @login_required
-def new_pitch():
-    form = PitchForm()
-    my_upvotes = Upvote.query.filter_by(pitch_id=Pitch.id)
+def new_blog():
+    form = BlogForm()
     if form.validate_on_submit():
         description = form.description.data
         title = form.title.data
         owner_id = current_user
         category = form.category.data
         print(current_user._get_current_object().id)
-        new_pitch = Pitch(owner_id=current_user._get_current_object().id, title=title, description=description,
+        new_blog = Blog(owner_id=current_user._get_current_object().id, title=title, description=description,
                           category=category)
-        db.session.add(new_pitch)
+        db.session.add(new_blog)
         db.session.commit()
 
         return redirect(url_for('main.index'))
-    return render_template('pitches.html', form=form)
+    return render_template('blogs.html', form=form)
 
 
-@main.route('/comment/new/<int:pitch_id>', methods=['GET', 'POST'])
+@main.route('/comment/new/<int:blog_id>', methods=['GET', 'POST'])
 @login_required
-def new_comment(pitch_id):
+def new_comment(blog_id):
     form = CommentForm()
-    pitch = Pitch.query.get(pitch_id)
+    blog = Blog.query.get(blog_id)
     if form.validate_on_submit():
         description = form.description.data
 
-        new_comment = Comment(description=description, user_id=current_user._get_current_object().id, pitch_id=pitch_id)
+        new_comment = Comment(description=description, user_id=current_user._get_current_object().id, blog_id=blog_id)
         db.session.add(new_comment)
         db.session.commit()
 
-        return redirect(url_for('.new_comment', pitch_id=pitch_id))
+        return redirect(url_for('.new_comment', blog_id = blog_id))
 
-    all_comments = Comment.query.filter_by(pitch_id=pitch_id).all()
-    return render_template('comments.html', form=form, comment=all_comments, pitch=pitch)
+    all_comments = Comment.query.filter_by(blog_id=blog_id).all()
+    return render_template('comments.html', form=form, comment=all_comments, blog=blog)
 
