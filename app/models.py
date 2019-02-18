@@ -31,7 +31,7 @@ class Blog(db.Model):
         blogs = Blog.query.order_by(blog_id=id).desc().all()
         return blogs
 
-    def get_comments(self):
+    def get_post_comments(self):
         return Comment.query.filter_by(blog_id=self.id)
 
     def __repr__(self):
@@ -47,7 +47,7 @@ class User(UserMixin, db.Model):
     profile_pic_path = db.Column(db.String(),default = 'default.jpg')
     pass_secure = db.Column(db.String(255))
     blog = db.relationship('Blog', backref='user', lazy='dynamic')
-    comment = db.relationship('Comment', backref='user', lazy='dynamic')
+    # comment = db.relationship('Comment', backref='user', lazy='dynamic')
 
     @property
     def password(self):
@@ -70,7 +70,6 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     blog_id = db.Column(db.Integer, db.ForeignKey('blogs.id'), nullable=False)
-    # user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     description = db.Column(db.Text)
 
     def save_comment(self):

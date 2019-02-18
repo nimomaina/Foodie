@@ -18,10 +18,10 @@ def index():
     return render_template('index.html')
 
 
-@main.route('/allblogs')
+@main.route('/all_blogs')
 def blog():
     blogs = Blog.query.order_by(Blog.date_posted.desc())
-    return render_template('all_blogs.html', blogs=blogs)
+    return render_template('all_blog.html', blogs=blogs)
 
 
 @main.route('/blogs/<int:blog_id>',methods = ["GET","POST"])
@@ -33,12 +33,12 @@ def view_blog(blog_id):
     if form.validate_on_submit():
         name = form.name.data
         description = form.description.data
-        new_comment = Comment(name=name, description=description, blog=blog)
+        new_comment = Comment(name=name, description=description,blog_id=blog.id)
         new_comment.save_comment()
-        return redirect(url_for('main.view_blog', id=blog.id))
+        return redirect(url_for('main.view_blog', blog_id=blog.id))
     comments = Comment.query.filter_by(blog_id=blog.id)
 
-    return render_template("blogs.html", blog=blog, comments=comments, random = random)
+    return render_template("blogs.html", form=form, blog=blog, comments=comments, random = random)
 
 @main.route('/blogs/new/', methods=['GET', 'POST'])
 @login_required
