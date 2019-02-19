@@ -20,9 +20,10 @@ img{
 
 body{
     min-height: 100%;
-        font-family: 'Slabo 27px', serif;
-        overflow: scrollable;
-        font-size: 16px;
+    font-family: 'Playfair Display SC', serif;
+
+     overflow: scrollable;
+
 
 
 }
@@ -36,4 +37,18 @@ h2{
 }
 .navbar{
     font-size: 15px;
+    color:  #132226;
+}
+#index{
+    background-color: #D8D583;
+    color:#fff;
+    color:#720017;
+    font-size:30px;
+}
+.panel{
+    background-color: #D8D583;
+}
+.panel-heading{
+    color:#720017;
+    font-size: 20px;
 }

@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf%}
 
+<!-- Styles block -->
+
 {% block styles%}
-    {{super()}}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 
 {% endblock %}
 
@@ -18,15 +23,15 @@
 	</div>
 	<div class="row">
         {% for blog in blogs %}
-        <div class="col col-md-3">
-            <div class="row">
-				<div class="row">
-					<h1 >{{blog.title}}</h1>
+        <div class="col col-md-4">
+            <div class="panel panel_default">
+				<div class="panel-heading">
+					<h1 id="title">{{blog.title}}</h1>
 
 				</div>
 
-				<div class="row">
-					<p>{{blog.description}}<blockquote class="blockquote mb-0">
+				<div class="panel-body">
+					<p>{{blog.description | truncate(50)}}<blockquote class="blockquote mb-0">
 
 					<footer class="blockquote-footer"> Posted by {{blog.user.username}}</footer>
 				</blockquote>
@@ -34,11 +39,11 @@
 
 
 				</div>
-                <div class="row">
-                    <a href="{{url_for('main.view_blog',blog_id = blog.id)}}" class="btn btn-info">Read More</a>
+                <div class="panel-footer">
+                    <a href="{{url_for('main.view_blog',blog_id = blog.id)}}" class="btn">Read More <i class="fas fa-arrow-right"></i></a>
 					{% if current_user.is_authenticated%}
-					<a href="{{url_for('main.delete',blog_id = blog.id)}}">Delete</a>
-					<a href="{{url_for('main.update_blog',blog_id = blog.id)}}" class="btn">Update</a>
+					<a href="{{url_for('main.delete',blog_id = blog.id)}}" class="btn">Delete <i class="fas fa-trash-alt"></i></a>
+					<a href="{{url_for('main.update_blog',blog_id = blog.id)}}" class="btn">Update <i class="fas fa-edit"></i></a>
 					{% endif %}
 
 

@@ -89,11 +89,11 @@ def update_blog(blog_id):
     return render_template('new_blog.html', form=form)
 
 
-@main.route('/<int:blog_id>/comments/delete')
+@main.route('/<int:blog_id>/delete comments')
 @login_required
 def delete_comment(blog_id):
     comment = Comment.query.filter_by(blog_id=blog_id).first()
-    blog_id = comment.blog.id
+    blog_id = comment.blog_id
 
     db.session.delete(comment)
     db.session.commit()
