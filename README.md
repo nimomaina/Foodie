@@ -5,7 +5,7 @@ https://nimo-blog.herokuapp.com/
 A student at Moringa School and an aspiring software developer.
 
 ## Description
-Pitch is a web application that users can view other blog posts, comment on the blogs and sign in as writers. Writers are able to post new blog post, edit existing posts, delete posts and comments. Random quote is alsodisplayed on every blog
+Blog is a web application that users can view other blog posts, comment on the blogs and sign in as writers. Writers are able to post new blog post, edit existing posts, delete posts and comments. Random quote is also displayed on every blog
 
 ## Specifications
 * Users can view most recent blog posts
