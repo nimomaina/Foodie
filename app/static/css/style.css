@@ -8,11 +8,7 @@ img{
     height:400px;
 
 }
-.font{
-    font-size: 30px;
 
-
-}
 .home img{
     height:400px;
     overflow:hidden;
@@ -30,25 +26,35 @@ body{
 
 h2{
     font-family: 'Playfair Display SC', serif;
-    color: #E63462;
+    color: #720017;
     padding: 10px;
-
-
 }
-.navbar{
-    font-size: 15px;
-    color:  #132226;
+h3{
+    font-family: 'Playfair Display SC', serif;
+    color: #720017;
+    padding: 10px;
 }
+
 #index{
     background-color: #D8D583;
     color:#fff;
     color:#720017;
-    font-size:30px;
 }
 .panel{
     background-color: #D8D583;
+    padding:10px;
+    margin:10px;
+    height:auto;
 }
 .panel-heading{
     color:#720017;
     font-size: 20px;
+}
+.navlink{
+    text-decoration:underline;
+    color:#720017;
+    font-size: 18px;
+    padding: 5px;
+    margin: 10px;
+    font-weight:bold;
 }

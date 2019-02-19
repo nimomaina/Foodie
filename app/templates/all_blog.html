@@ -1,3 +1,4 @@
+<body >
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf%}
 
@@ -26,7 +27,8 @@
         <div class="col col-md-4">
             <div class="panel panel_default">
 				<div class="panel-heading">
-					<h1 id="title">{{blog.title}}</h1>
+					<h1 id="title">{{blog.title | truncate(20)}}</h1>
+					<hr>
 
 				</div>
 
@@ -60,3 +62,4 @@
 </div>
 
 {% endblock%}
+</body>
